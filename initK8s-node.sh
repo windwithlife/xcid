@@ -26,6 +26,7 @@ echo "finished to set hostname \n"
 echo $masterIP k8s-master >> /etc/hosts
 echo $nodeIP k8s-node$nodeID >> /etc/hosts
 
+
 #关闭防火墙和selinux
 systemctl stop firewalld && systemctl disable firewalld
 sed -i 's/^SELINUX=enforcing$/SELINUX=disabled/' /etc/selinux/config && setenforce 0
