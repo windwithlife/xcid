@@ -58,6 +58,18 @@ yum list docker-ce --showduplicates | sort -r
 yum install -y docker-ce-18.06.1.ce-3.el7
 systemctl start docker && systemctl enable docker
 
+#设置docker阿里加速器
+tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
+}
+EOF
+
+systemctl daemon-reload
+systemctl restart docker
+echo "finished to setup docker accelerator\n"
+
+
 #创建k8s的基于阿里的yum源
 touch /etc/yum.repos.d/kubernetes.repo
 echo [kubernetes] >> /etc/yum.repos.d/kubernetes.repo
