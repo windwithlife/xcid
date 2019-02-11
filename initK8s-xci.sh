@@ -30,6 +30,9 @@ kubectl apply -f ./cloud-resources/k8s/resources/deployments/mysql.yaml
 kubectl apply -f ./cloud-resources/k8s/resources/deployments/redis.yaml
 echo "finished to create some common services \n"
 
+yum localinstall -y https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm
+yum install  -y mysql-community-client
+echo "finished to install mysql8.0 client for test"
 
 #安装虚拟网络组件到K8s
 docker build . -t xci-web
