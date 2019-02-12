@@ -75,7 +75,7 @@ tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
 }
 EOF
-sed -i "s/}/,'insecure-registries': ['$hostIP:5000']/g" /etc/docker/daemon.json
+sed -i 's/}/, "insecure-registries": ["$hostIP:5000"] }/g' /etc/docker/daemon.json
 
 systemctl daemon-reload
 systemctl restart docker

@@ -64,7 +64,7 @@ tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
 }
 EOF
-
+sed -i 's/}/, "insecure-registries": ["$masterIP:5000"] }/g' /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
 echo "finished to setup docker accelerator\n"
