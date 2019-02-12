@@ -13,6 +13,8 @@ spec:
         k8s-app: mysql-redis
     spec:
       terminationGracePeriodSeconds: 60
+      nodeSelector:
+        resourceType: enough
       hostNetwork: true
       containers:
       - name: redis
