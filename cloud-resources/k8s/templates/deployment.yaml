@@ -24,8 +24,7 @@ spec:
       nodeSelector:
         resourceType: enough
       containers:
-      - args:
-        image: docker.io/test-default:v1.1.1
+      - image: docker.io/test-default:v1.1.1
         imagePullPolicy: IfNotPresent
         name: default-app
         ports:
