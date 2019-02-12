@@ -6,15 +6,15 @@ hostIP=$1
 
 if [ ! -n "$hostIP" ]
 then
-
+hostIP=127.0.0.1
 echo "you have no a host ip to create master \n"
-echo 127.0.0.1 k8s-master >> /etc/hosts
-else
 
+else
 echo "you have a host ip to create master \n"
-echo $hostIP k8s-master >> /etc/hosts
 
 fi
+
+echo $hostIP k8s-master >> /etc/hosts
 
 #master节点:
 hostnamectl set-hostname k8s-master
@@ -75,10 +75,11 @@ tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
 }
 EOF
+sed -i "s/}/,'insecure-registries': ['$hostIP:5000']/g" /etc/docker/daemon.json
 
 systemctl daemon-reload
 systemctl restart docker
-echo "finished to setup docker accelerator\n"
+echo "finished to setup docker accelerator and local registry \n"
 
 #创建k8s的基于阿里的yum源
 touch /etc/yum.repos.d/kubernetes.repo
@@ -112,6 +113,8 @@ kubectl taint node k8s-master node-role.kubernetes.io/master-
 kubectl label nodes k8s-master resourceType=enough
 echo "finished to make k8s master as node \n"
 
+kubectl apply -f ./cloud-resources/k8s/resources/deployments/docker-registry.yaml
+
 #安装ingress-nginx处理网络接入
 #kubectl apply -f ./cloud-resources/k8s/resources/deployments/ingress-nginx.yaml
 
@@ -132,7 +135,7 @@ echo "finished to make k8s master as node \n"
 #echo "finished to create default ingress TLS Certs \n"
 
 #create node join token string
-kubeadm token create --print-join-command
+#kubeadm token create --print-join-command
 
 
 #安装Xci自身项目到K8s中去
