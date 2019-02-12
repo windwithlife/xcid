@@ -21,6 +21,8 @@ spec:
       labels:
         k8sApp: default-app
     spec:
+      nodeSelector:
+        resourceType: enough
       containers:
       - args:
         image: docker.io/test-default:v1.1.1

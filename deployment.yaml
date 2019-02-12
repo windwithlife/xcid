@@ -11,6 +11,8 @@ spec:
         k8sApp: xci-web 
     spec: 
       #hostNetwork: true
+      nodeSelector:
+        resourceType: enough 
       containers: 
       - name: xci-website-container 
         image: xci-web
