@@ -11,7 +11,7 @@ spec:
     metadata:
       name: mysqld
       labels:
-        k8s-app: mysql
+        k8s-app: k8s-mysql
     spec:
       terminationGracePeriodSeconds: 60
       nodeSelector:
