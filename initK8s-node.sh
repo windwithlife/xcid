@@ -5,18 +5,16 @@ side=$1
 masterIP=$1
 nodeIP=$2
 nodeID=$3
+registry=registry.zyq0.com:5000
 
-if [[ "$side" = "master" ]]
+iif [ ! -n "$nodeIP" ]
 then
-
-echo "you want to restart master \n"
-#systemctl restart etcd flanneld docker  kube-apiserver kube-controller-manager.service kube-scheduler.service kubelet.service kube-proxy.service
+nodeIP=127.0.0.1
+echo "you have no a host ip to create node \n"
 
 else
-
-echo "you want to restart node \n"
-#systemctl restart flanneld docker  kubelet.service kube-proxy.service
-
+echo "you have a host ip to create master \n"
+registry=$masterIP
 fi
 
 #master节点:
@@ -51,8 +49,11 @@ timedatectl set-ntp true
 
 
 #配置docker yum源
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-
+#yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+curl -o /etc/yum.repos.d/docker-ce.repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+yum clean all
+yum makecache fast 
+yum repolist
 #安装指定版本，这里安装18.06
 yum list docker-ce --showduplicates | sort -r
 yum install -y docker-ce-18.06.1.ce-3.el7
@@ -64,7 +65,8 @@ tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
 }
 EOF
-sed -i 's/}/, "insecure-registries": ["$masterIP:5000"] }/g' /etc/docker/daemon.json
+sed -i 's/}/, "insecure-registries": ["$registry"] }/g' /etc/docker/daemon.json
+#sed -i 's/}/, "insecure-registries": ["$masterIP:5000"] }/g' /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
 echo "finished to setup docker accelerator\n"

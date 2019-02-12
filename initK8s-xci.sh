@@ -39,6 +39,11 @@ docker build . -t xci-web
 
 rm -rf final-deployment.yaml
 sed -e "s/release.zhangyongqiao.com/$webDN/g" < ./deployment.yaml > final-deployment.yaml
+if [ -n "$2" ]
+then
+sed -i "s/registry.zyq0.com:5000/$2/g" ./final-deployment.yaml
+fi
+
 kubectl apply -f ./final-deployment.yaml
 rm -rf final-deployment.yaml
 

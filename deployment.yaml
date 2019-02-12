@@ -6,6 +6,8 @@ spec:
   template:
     metadata: 
       name: xci-web
+      annotations:
+        docker-registry: 'registry.zyq0.com:5000'
       namespace: default
       labels:
         k8sApp: xci-web 
@@ -19,6 +21,11 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3333
+        env:
+        - name: REGISTRY
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['docker-registry']
         volumeMounts: 
           - mountPath: /var/run 
             name: docker-sock 
