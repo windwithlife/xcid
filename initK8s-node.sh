@@ -84,19 +84,20 @@ echo gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mi
 #在所有节点上安装指定版本kubeadm
 yum install -y kubeadm-1.13.1
 
+systemctl enable kubelet.service
 #kubeadm reset --force
-kubeadm join $masterIP:6443 --token 67kq55.8hxoga556caxty7s --discovery-token-ca-cert-hash sha256:7d50e704bbfe69661e37c5f3ad13b1b88032b6b2b703ebd4899e259477b5be69
+kubeadm join $masterIP:6443 --token t2anpo.v46i0kcpihh7qxge --discovery-token-ca-cert-hash sha256:8ef5316779e45dcc6ce835d3be7129741fe60c523d7afd2d2056c53b3dc4468a
 #kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.13.1 --pod-network-cidr=10.244.0.0/16
 #启动kubelet服务
-systemctl enable kubelet && systemctl start kubelet
+#systemctl start kubelet
 
 #创建启动配置到当前用户下。
-mkdir -p $HOME/.kube
-cp -rf /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
+#mkdir -p $HOME/.kube
+#cp -rf /etc/kubernetes/admin.conf $HOME/.kube/config
+#chown $(id -u):$(id -g) $HOME/.kube/config
 
 #安装虚拟网络组件到K8s
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 
 
