@@ -70,13 +70,15 @@ yum install -y docker-ce-18.06.1.ce-3.el7
 systemctl start docker && systemctl enable docker
 
 #设置docker阿里加速器
+#设置docker阿里加速器
 tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
+  "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"],
+  "insecure-registries": ["registry-host:5000"] 
 }
 EOF
-sed -i 's/}/, "insecure-registries": ["$registry"] }/g' /etc/docker/daemon.json
-#sed -i 's/}/, "insecure-registries": ["$masterIP:5000"] }/g' /etc/docker/daemon.json
+sed -i "s/registry-host/$registry/g" /etc/docker/daemon.json
+
 systemctl daemon-reload
 systemctl restart docker
 echo "finished to setup docker accelerator\n"

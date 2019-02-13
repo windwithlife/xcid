@@ -82,12 +82,12 @@ echo "finished to install docker\n"
 #设置docker阿里加速器
 tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"]
+  "registry-mirrors": ["https://89cgb0wn.mirror.aliyuncs.com"],
+  "insecure-registries": ["registry-host:5000"] 
 }
 EOF
-finalString =', "insecure-registries": ["$registry:5000"] }'
-echo $finalString
-sed -i 's/}/$finalString/g' /etc/docker/daemon.json
+
+sed -i "s/registry-host/$registry/g" /etc/docker/daemon.json
 
 systemctl daemon-reload
 systemctl restart docker
