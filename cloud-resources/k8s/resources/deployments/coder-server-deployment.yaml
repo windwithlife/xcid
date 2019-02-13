@@ -22,8 +22,7 @@ spec:
       name: coder-server
     spec:
       containers:
-        - args: null
-          image: 'coder-server:0.1.1'
+        - image: 'coder-server:0.1.1'
           imagePullPolicy: IfNotPresent
           name: default-app
           ports:

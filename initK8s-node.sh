@@ -47,6 +47,16 @@ systemctl enable chronyd && systemctl restart chronyd
 #开启网络时间同步功能
 timedatectl set-ntp true
 
+tee /etc/sysctl.d/k8s.conf <<-'EOF'
+vm.swappiness = 0
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+# 使配置生效
+modprobe br_netfilter
+sysctl -p /etc/sysctl.d/k8s.conf
+
 
 #配置docker yum源
 #yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
