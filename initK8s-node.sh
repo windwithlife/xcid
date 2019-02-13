@@ -7,7 +7,7 @@ nodeIP=$2
 nodeID=$3
 registry=registry.zyq0.com:5000
 
-iif [ ! -n "$nodeIP" ]
+if [ ! -n "$nodeIP" ]
 then
 nodeIP=127.0.0.1
 echo "you have no a host ip to create node \n"
