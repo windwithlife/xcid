@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - host: gateway.xkoudai.com
+  - host: gateway.koudaibook.com
     http:
       paths:
       - path: /

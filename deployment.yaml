@@ -72,10 +72,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - release.zhangyongqiao.com
+    - release.koudaibook.com
     secretName: ingress-nginx/default-certs
   rules:
-  - host: release.zhangyongqiao.com
+  - host: release.koudaibook.com
     http:
       paths:
       - path: /

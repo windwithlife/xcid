@@ -8,7 +8,7 @@ then
 echo "you have input param $webDN \n"
 else
 echo "you have input param"
-webDN=release.zhangyongqiao.com
+webDN=release.koudaibook.com
 fi
 
 #创建TLS证书
@@ -38,7 +38,7 @@ echo "finished to create some common services \n"
 docker build . -t xci-web
 
 rm -rf final-deployment.yaml
-sed -e "s/release.zhangyongqiao.com/$webDN/g" < ./deployment.yaml > final-deployment.yaml
+sed -e "s/release.koudaibook.com/$webDN/g" < ./deployment.yaml > final-deployment.yaml
 if [ -n "$2" ]
 then
 sed -i "s/registry.zyq0.com:5000/$2/g" ./final-deployment.yaml

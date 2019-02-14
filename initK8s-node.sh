@@ -99,7 +99,7 @@ echo gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mi
 
 
 #在所有节点上安装指定版本kubeadm
-yum install -y kubeadm-1.13.1
+yum install -y kubelet-1.13.1 kubeadm-1.13.1 kubectl-1.13.1
 
 systemctl enable kubelet.service
 #kubeadm reset --force
