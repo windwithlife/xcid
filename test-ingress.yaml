@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: foo-bar
+spec:
+  rules:
+  - host: test.koudaibook.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: coffee-svc
+          servicePort: 80
