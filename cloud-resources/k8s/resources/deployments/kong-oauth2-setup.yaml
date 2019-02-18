@@ -10,7 +10,7 @@ config:
   provision_key: XUscyiloz2Z19UTV8je4iFvLNGJK00j2
 plugin: oauth2
 ---
-  apiVersion: configuration.konghq.com/v1
+apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
   name: team-a
