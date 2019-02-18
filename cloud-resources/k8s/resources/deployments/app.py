@@ -22,7 +22,7 @@ def login():
     password = request.args.get('password')
     if username != "goddy" or password != "123456":
         raise Exception("用户名或密码错误")
-    data = requests.post("https://127.0.0.1:30443/oauth2/token", headers={
+    data = requests.post("http://127.0.0.1:31125/oauth2/token", headers={
         'Content-Type': 'application/x-www-form-urlencoded',
         'Host': 'kong-resource'
     }, data={
