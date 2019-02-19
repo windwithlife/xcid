@@ -6,7 +6,6 @@ var dockerTools = require('./libs/docker-tool');
 var shellTools = require('./libs/shell-tool');
 var envConfig = require('./libs/env-config');
 var releaseServer = require('./libs/release');
-//var querystring= require('querystring');
 
 var app = express();
 console.log(new Date().toLocaleString());
