@@ -188,4 +188,5 @@ spec:
     secretName: kubernetes-dashboard-certs-ingress
 
 
-
+#查看Kong ingress controller日志
+ kubectl logs -n kong --selector="app=ingress-kong" -c ingress-controller

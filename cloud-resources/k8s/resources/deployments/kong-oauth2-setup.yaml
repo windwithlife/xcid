@@ -3,8 +3,8 @@ kind: KongPlugin
 metadata:
   name: oauth
 config:
-  scopes: read,write
-  mandatory_scope: true
+  #scopes: read,write
+  mandatory_scope: false
   enable_password_grant: true
   global_credentials: true
   provision_key: XUscyiloz2Z19UTV8je4iFvLNGJK00j2
