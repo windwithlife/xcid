@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: foo-bar
 spec:
+  tls:
+  - hosts:
+    - test.koudaibook.com
+    secretName: default-certs
   rules:
   - host: test.koudaibook.com
     http:
