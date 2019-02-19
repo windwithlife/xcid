@@ -73,7 +73,7 @@ spec:
   tls:
   - hosts:
     - release.koudaibook.com
-    secretName: ingress-nginx/default-certs
+    secretName: default-certs
   rules:
   - host: release.koudaibook.com
     http:

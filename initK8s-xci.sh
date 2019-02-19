@@ -17,7 +17,7 @@ openssl genrsa -des3 -passout pass:x -out certs/dashboard.pass.key 2048
 openssl rsa -passin pass:x -in certs/dashboard.pass.key -out certs/dashboard.key
 openssl req -new -key certs/dashboard.key -out certs/dashboard.csr -subj '/CN=kube-TLS'
 openssl x509 -req -sha256 -days 365 -in certs/dashboard.csr -signkey certs/dashboard.key -out certs/dashboard.crt
-kubectl create secret generic default-certs --from-file=certs -n ingress-nginx
+kubectl create secret generic default-certs --from-file=certs
 rm -rf ./certs
 echo "finished to create default ingress TLS Certs \n"
 
