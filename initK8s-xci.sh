@@ -22,7 +22,9 @@ rm -rf ./certs
 echo "finished to create default ingress TLS Certs \n"
 
 #安装ingress-nginx处理网络接入
-kubectl apply -f ./cloud-resources/k8s/resources/deployments/ingress-nginx.yaml
+#kubectl apply -f ./cloud-resources/k8s/resources/deployments/ingress-nginx.yaml
+kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-pv.yaml
+kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-ingress-controller.yaml
 
 #安装mysql
 kubectl apply -f ./cloud-resources/k8s/resources/deployments/mysql.yaml
