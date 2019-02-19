@@ -50,7 +50,8 @@ spec:
       serviceAccount: nfs-client-provisioner  #这个要与刚才创建的serviceaccount 的名字一致
       containers:
         - name: nfs-provisioner
-          image: registry.cn-hangzhou.aliyuncs.com/open-ali/nfs-client-provisioner
+          #image: registry.cn-hangzhou.aliyuncs.com/open-ali/nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
