@@ -123,7 +123,7 @@ echo "finished to create flannel network component \n"
 
 #安装nfs网络存储系统支持k8s的PV，PVC
 yum install -y nfs-utils
-
+mkdir /data/volumes -pv
 tee /etc/exports <<-'EOF'
 /data/volumes 172.27.0.0/16(rw,no_root_squash)
 EOF
