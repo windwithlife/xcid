@@ -31,9 +31,11 @@ metadata:
   labels:
     k8s-app: database-redis
 spec:
+  type: NodePort
   ports:
   - port: 6379
     name: redis
     targetPort: 6379
+    nodePort: 30379
   selector:
     k8s-app: my-redis

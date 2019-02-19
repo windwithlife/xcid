@@ -190,3 +190,5 @@ spec:
 
 #查看Kong ingress controller日志
  kubectl logs -n kong --selector="app=ingress-kong" -c ingress-controller
+#Kong oauth2 password方式获取token
+ curl -v  -k http://test.koudaibook.com:30080/oauth2/token -X POST  -d "provision_key=XUscyiloz2Z19UTV8je4iFvLNGJK00j2&grant_type=password&client_id=student-client&client_secret=student-secret&scope=read&authenticated_userid=123&username=goddy&password=123456"
