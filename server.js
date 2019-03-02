@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.post('/gitPushEventXCI/', function (req, res) {
-    var params = { isUseOwnDockerFile: true,webDomainName:'release.zhangyongqiao.com',isSubWebSite:false, isUseOwnDeploymentFile:false,targetPath: './', name: "xci", lang: 'xcijs', type: 'web', label: 'latest', cloneUrl: 'https://github.com/windwithlifezyq/xci.git' };
+    var params = { isUseOwnDockerFile: true,webDomainName:'release.koudaibook.com',isSubWebSite:false, isUseOwnDeploymentFile:false,targetPath: './', name: "xci", lang: 'xcijs', type: 'web', label: 'latest', cloneUrl: 'https://github.com/windwithlifezyq/xci.git',branch:'master' };
     if (req.query.name) {
         params.name = req.query.name;
     }
@@ -41,9 +41,25 @@ app.post('/gitPushEventProject/', function (req, res) {
     console.log("begin deploy project-------------")
     console.log('current directory is:' + process.cwd());
 
-    var params = { isUseOwnDockerFile: false, isSubWebSite:true, isUseOwnDeploymentFile:false,targetPath: './', name: "coder", lang: 'java', type: 'server', label: '1.0', cloneUrl: 'https://github.com/windwithlife/coder.git' };
+    var params = { isUseOwnDockerFile: false, isSubWebSite:true, isUseOwnDeploymentFile:false,targetPath: './', name: "coder", lang: 'java', type: 'server', label: '1.0', cloneUrl: 'https://github.com/windwithlife/coder.git',branch:'master' };
+    if (req.body.repository) {
+        params.name =params.codeName= req.body.repository.name;
+        params.gitUrl = req.body.repository.git_url;
+        params.cloneUrl = req.body.repository.clone_url;
+        params.sshUrl = req.body.repository.ssh_url;
+        
+    }
+    
     if (req.query.name) {
         params.name = req.query.name;
+    }
+    params.exName = params.codeName = params.name;
+
+    if (req.query.codeName) {
+        params.exName = req.query.codeName;
+    }
+    if (req.query.exName) {
+        params.exName = req.query.exName;
     }
     if (req.query.webDN) {
         params.webDomainName = req.query.webDN;
@@ -70,16 +86,8 @@ app.post('/gitPushEventProject/', function (req, res) {
         params.type = req.query.type;
     }
 
-    if (req.body.repository) {
-        params.name = req.body.repository.name;
-        params.gitUrl = req.body.repository.git_url;
-        params.cloneUrl = req.body.repository.clone_url;
-        params.sshUrl = req.body.repository.ssh_url;
-        
-    }
-    if (params.name == 'xci') {
-        params.lang = 'xcijs';
-    }
+    
+   
     console.log("release params is :",params);
     //res.send('begin to fetch source code.....')
     if(releaseServer.autoRelease(params)){

@@ -21,7 +21,7 @@ function autoReleaseOldXCI(){
 }
 function autoRelease(params) {
     console.log('begin to fetch git source code!....')
-    var resultgit = gitTools.fetchSourceFromGit(params.name, params.cloneUrl, 'master');
+    var resultgit = gitTools.fetchSourceFromGit(params.codeName, params.cloneUrl, 'master');
     if (!resultgit) {
         console.log('failed to get source from git,root case: git fetch a failure!')
         return false;
@@ -31,7 +31,7 @@ function autoRelease(params) {
     let result = dockerTools.buildServiceDockerImage(params.name, params.label, params.lang, params.type, params.targetPath,params.isUseOwnDockerFile);
     if (result) {
         console.log('begin to deploy the resource to k8s!....')
-        dockerTools.release2K8sCloud(params.name, params.label, params.type,params.webDomainName,params.isSubWebSite,params.isUseOwnDeploymentFile,params.targetPath);
+        dockerTools.release2K8sCloud(params.name, params.label, params.type,params.webDomainName,params.isSubWebSite,params.isUseOwnDeploymentFile,params.targetPath,params.exName);
         return true;
     } else {
         console.log("failed to create service image! can't continue to deploy to k8s");

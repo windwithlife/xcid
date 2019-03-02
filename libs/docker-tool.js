@@ -80,7 +80,7 @@ function buildServiceDockerImage(name, label, lang, type, dockerfilePath,isUseOw
 /**
  * 创建每个服务（soa或者web)发布到k8s所需要的deployment，service,ingress文件。
  */
-function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,isSubWebSite){
+function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,isSubWebSite,exName){
 
     let currentPath = process.cwd();
     console.log(currentPath);
@@ -130,7 +130,8 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
         ingress.spec.rules[0].host = webDomainName;
     }
     if (isSubWebSite){
-        ingress.spec.rules[0].http.paths[0].path = "/" + name + "/?(.*)";
+        //ingress.spec.rules[0].http.paths[0].path = "/" + name + "/?(.*)";
+        ingress.spec.rules[0].http.paths[0].path = "/" + exName + "/?(.*)";
     }else{
         ingress.spec.rules[0].http.paths[0].path = "/"; 
     }
@@ -170,6 +171,7 @@ function createK8sProjectOwnOperationFiles(name,sourceRootPath,webDomainName){
         console.log('failed to mkdir' + evnConfig.getDeploymentResourcesPath());
      }
      //if (exec(gitCloneCommand).code !== 0) 
+    let deployServiceFile = evnConfig.getDeploymentResourcesPath() +  serviceName;
     let finalDeploymentFileName = deployServiceFile +'-deployment.yaml';
     let ownDeploymentFileName =  path.join(getWorkPath(name,sourceRootPath),"demployment.yaml");
 
@@ -198,7 +200,7 @@ function getDeploymentFile(serviceName){
 /**
  * 使用发布到k8s的发布文件全路径名，发布服务到k8s中。
  */
-function releaseService2Cloud(serviceName,imageName){
+function releaseService2Cloud(serviceName){
     let finalDeploymentFileName = getDeploymentFile(serviceName);
     let runUnDeployCommand = 'kubectl delete -f  ' + finalDeploymentFileName;
     let runDeployCommand = 'kubectl create -f  ' + finalDeploymentFileName;
@@ -207,7 +209,7 @@ function releaseService2Cloud(serviceName,imageName){
     exec(runUnDeployCommand);
     let result = exec(runDeployCommand);
     if(result.code !== 0){   
-        console.log('failed to release service to k8s based imageName:' + imageName);
+        console.log('failed to release service to k8s based service Name:' + serviceName);
         console.log('root cause:' + result.stderr);
     }else{
         console.log('sucessfule to release service to k8s cloud platform!')
@@ -219,16 +221,16 @@ function releaseService2Cloud(serviceName,imageName){
 /**
  * 创建并使用发布文件，发布服务到k8s中。
  */
-function release2K8sCloud(name,labelName,type,webDomainName,isSubWebSite,isUserOwnDeploymentFile,sourceRootPath) {
+function release2K8sCloud(name,labelName,type,webDomainName,isSubWebSite,isUserOwnDeploymentFile,sourceRootPath,exName) {
     let imageName = getDockerImageName(name,labelName,type);
     let serviceName  = getServiceName(name, type);
     if (isUserOwnDeploymentFile){
         createK8sProjectOwnOperationFiles(name,sourceRootPath,webDomainName);
     }else{
-        createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,isSubWebSite);
+        createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,isSubWebSite,exName);
     }
     
-    releaseService2Cloud(serviceName,imageName);
+    releaseService2Cloud(serviceName);
 }
 
 module.exports = {
