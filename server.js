@@ -103,7 +103,7 @@ app.get('/initK8s', function (req, res) {
     res.send('Hello,K8s!')
 })
 app.get('/', function (req, res) {
-    res.send('Hello,world! xci version 0.1.1')
+    res.send('Hello,world! xci version 0.2.3')
 })
 
 
