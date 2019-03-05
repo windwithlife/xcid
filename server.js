@@ -47,7 +47,7 @@ app.post('/gitPushEventProject/', function (req, res) {
         params.gitUrl = req.body.repository.git_url;
         params.cloneUrl = req.body.repository.clone_url;
         params.sshUrl = req.body.repository.ssh_url;
-        
+        console.log(req.body.repository);
     }
     
     if (req.query.name) {
