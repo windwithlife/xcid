@@ -89,6 +89,7 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
     let deploymentTemplate = templateFilePath + 'deployment.yaml';
     let serviceTemplate = templateFilePath + 'service.yaml';
     let ingressTemplate = templateFilePath + type + '-ingress.yaml';
+    let kongingressTemplate = templateFilePath + 'kong-ingress.yaml';
 
     let deployServiceFile = evnConfig.getDeploymentResourcesPath() +  serviceName;
      if(exec('mkdir -p ' + evnConfig.getDeploymentResourcesPath()).code !==0){
@@ -98,6 +99,7 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
     let tempDeployFile = deployServiceFile + "-deploy.yaml"
     let tempServiceFile = deployServiceFile + "-service.yaml"
     let tempIngressFile = deployServiceFile + "-ingress.yaml"
+    let tempKongIngressFile = deployServiceFile + "-kongingress.yaml"
     let finalDeploymentFileName = deployServiceFile +'-deployment.yaml';
     console.log("Deploy template:\r\n" + deploymentTemplate);
 
@@ -130,8 +132,8 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
         ingress.spec.rules[0].host = webDomainName;
     }
     if (isSubWebSite){
-        //ingress.spec.rules[0].http.paths[0].path = "/" + name + "/?(.*)";
-        ingress.spec.rules[0].http.paths[0].path = "/" + exName + "/?(.*)";
+        //ingress.spec.rules[0].http.paths[0].path = "/" + exName + "/?(.*)";
+        ingress.spec.rules[0].http.paths[0].path = "/" + exName + "/?";
     }else{
         ingress.spec.rules[0].http.paths[0].path = "/"; 
     }
@@ -140,21 +142,42 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
     console.log(ingress);
     yaml.writeSync(tempIngressFile,ingress,"utf8");
 
+    //Kong-ingress
+    console.log("kong ingress template" + tempKongIngressFile);
+    let kongingress = yaml.readSync(tempKongIngressFile, {encoding: "utf8",schema: yaml.schema.defaultSafe})
+    kongingress.metadata.name = serviceName + '-ingress';
+    //kongingress.proxy.path = '/';
+    //kongingress.proxy.path = '/' + exName;
+    //if (isSubWebSite){
+     //   kongingress.route.strip_path = 'true'
+    //}else{
+    //    kongingress.route.strip_path = 'false'
+    //}
+    
+    console.log(kongingress);
+    yaml.writeSync(tempKongIngressFile,kongingress,"utf8");
+
+
+
     var contentTextDeployment = fs.readFileSync(tempDeployFile,'utf-8');
     var contentTextService = fs.readFileSync(tempServiceFile,'utf-8');
     var contentTextIngress = fs.readFileSync(tempIngressFile,'utf-8');
+    var contentTextKongIngress = fs.readFileSync(tempKongIngressFile,'utf-8');
     var contentSplitLine = "\n---\n\n"
 
     rm(finalDeploymentFileName);
     rm(tempDeployFile);
     rm(tempServiceFile);
     rm(tempIngressFile);
+    rm(tempKongIngressFile);
 
     var result = fs.appendFileSync(finalDeploymentFileName,contentTextDeployment);
     result = fs.appendFileSync(finalDeploymentFileName,contentSplitLine);
     result = fs.appendFileSync(finalDeploymentFileName,contentTextService);
     result = fs.appendFileSync(finalDeploymentFileName,contentSplitLine);
     result = fs.appendFileSync(finalDeploymentFileName,contentTextIngress);
+    result = fs.appendFileSync(finalDeploymentFileName,contentSplitLine);
+    result = fs.appendFileSync(finalDeploymentFileName,contentTextKongIngress);
 
     console.log("DockerImageName:" + imageName);
     return imageName;
