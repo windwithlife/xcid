@@ -143,8 +143,8 @@ function createK8sOperationFiles(serviceName,imageName,type,name,webDomainName,i
     yaml.writeSync(tempIngressFile,ingress,"utf8");
 
     //Kong-ingress
-    console.log("kong ingress template" + tempKongIngressFile);
-    let kongingress = yaml.readSync(tempKongIngressFile, {encoding: "utf8",schema: yaml.schema.defaultSafe})
+    console.log("kong ingress template" + kongingressTemplate);
+    let kongingress = yaml.readSync(kongingressTemplate, {encoding: "utf8",schema: yaml.schema.defaultSafe})
     kongingress.metadata.name = serviceName + '-ingress';
     //kongingress.proxy.path = '/';
     //kongingress.proxy.path = '/' + exName;
