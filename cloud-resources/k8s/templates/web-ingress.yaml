@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: name-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
   - host: www.koudaibook.com
