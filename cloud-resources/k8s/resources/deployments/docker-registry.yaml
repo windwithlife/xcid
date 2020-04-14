@@ -6,6 +6,9 @@ metadata:
     k8s-app: dp-registry
   namespace: default
 spec:
+  selector:
+    matchLabels:
+      app: xci-registry
   replicas: 1
   template:
     metadata:
