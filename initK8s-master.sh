@@ -76,7 +76,7 @@ yum repolist
 
 #安装指定版本，这里安装18.06
 yum list docker-ce --showduplicates | sort -r
-yum install -y docker-ce-18.06.1.ce-3.el7
+yum install -y docker-ce-18.09.9 docker-ce-cli-18.09.9 containerd.io
 systemctl start docker && systemctl enable docker
 echo "finished to install docker\n"
 
@@ -106,7 +106,7 @@ echo gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mi
 
 
 #在所有节点上安装指定版本kubeadm
-yum install -y kubelet-1.13.1  kubectl-1.13.1 kubeadm-1.13.1
+yum install -y kubelet-1.16.4  kubectl-1.16.4 kubeadm-1.16.4
 kubeadm reset --force
 kubeadm init --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.13.1 --pod-network-cidr=10.244.0.0/16
 #启动kubelet服务
