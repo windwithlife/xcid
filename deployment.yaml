@@ -13,7 +13,7 @@ spec:
         docker-registry: 'registry.zyq0.com:5000'
       namespace: default
       labels:
-        k8sApp: xci-web 
+        k8s-app: xci-web 
     spec: 
       #hostNetwork: true
       nodeSelector:
