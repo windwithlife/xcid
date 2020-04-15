@@ -7,7 +7,8 @@ if [ -n "$webDN" ]
 then
 echo "you have input param $webDN \n"
 else
-echo "you have input param"
+echo "you have no 
+input param"
 webDN=release.koudaibook.com
 fi
 
@@ -23,9 +24,9 @@ echo "finished to create default ingress TLS Certs \n"
 
 #安装ingress-nginx处理网络接入
 #kubectl apply -f ./cloud-resources/k8s/resources/deployments/ingress-nginx.yaml
-kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-pv.yaml
-kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-ingress-controller.yaml
-kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-oauth2-setup.yaml
+#kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-pv.yaml
+#kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-ingress-controller.yaml
+#kubectl apply -f ./cloud-resources/k8s/resources/deployments/kong-oauth2-setup.yaml
 
 #安装mysql
 kubectl apply -f ./cloud-resources/k8s/resources/deployments/mysql.yaml
