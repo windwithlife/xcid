@@ -60,6 +60,7 @@ metadata:
   labels:
     k8sApp: xci-web-svc
 spec:
+  type: NodePort
   selector:
     k8sApp: xci-web
   ports:
